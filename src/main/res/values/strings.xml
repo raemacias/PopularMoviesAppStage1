@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MovieAppStage1</string>
+    <string name="detail_title" translatable="false">Title</string>
+    <string name="original_title" translatable="false">Original Title</string>
+    <string name="detail_release_date" translatable="false">Release Date</string>
+    <string name="vote_average" translatable="false">Viewer Rating</string>
+    <string name="plot_synopsis">Plot</string>
+    <string name="no_connection">Internet connection needed to access information.</string>
+
+    <string name="movie_poster_image">Movie Poster Image</string>
+    <string name="movie_thumb_image">Movie Thumb Image</string>
+    <string name="movie_poster_action">Click on poster for more details</string>
+
+    <string name="sort_popular">Most Popular</string>
+    <string name="sort_rating">Highest Rating</string>
+    <string name="menu_settings">Settings</string>
+
+</resources>

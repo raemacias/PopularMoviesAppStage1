@@ -40,11 +40,11 @@ public class DetailActivity extends AppCompatActivity {
             String rating = getIntent().getExtras().getString("vote_average");
             String dateOfRelease = getIntent().getExtras().getString("release_date");
 
-            //set up the data
-            Picasso.with(this)
+            Picasso.get()
                     .load(thumbnail)
-                    .placeholder(R.drawable.loading)
+                    .placeholder(R.drawable.popcorn)
                     .into(imageView);
+
 
             nameOfMovie.setText(movieName);
             plotSynopsis.setText(synopsis);

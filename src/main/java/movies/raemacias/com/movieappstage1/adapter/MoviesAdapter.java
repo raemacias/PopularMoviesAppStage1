@@ -1,6 +1,7 @@
 package movies.raemacias.com.movieappstage1.adapter;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +16,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import movies.raemacias.com.movieappstage1.DetailActivity;
 import movies.raemacias.com.movieappstage1.R;
+import movies.raemacias.com.movieappstage1.api.MovieInterface;
 import movies.raemacias.com.movieappstage1.model.MovieModel;
 import movies.raemacias.com.movieappstage1.model.Result;
 import retrofit2.Callback;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListViewHolder> implements View.OnClickListener {
 
 
     // This code has been adapted from www.learn2crack.com
@@ -56,11 +59,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
 //        holder.textViewPlotSynopsis.setText(results.get(position).getOverview());
 //        holder.textViewReleaseDate.setText(results.get(position).getReleaseDate());
 
-//        String posterPath = "https://image.tmdb.org/t/p/w500" + results.get(position).getPosterPath();
 
-        Picasso.with(context)
-                .load(results.get(position).getPosterPath())
-                .placeholder(R.drawable.ic_launcher_foreground)
+        String poster = "https://image.tmdb.org/t/p/w500" + results.get(position).getPosterPath();
+
+        Picasso.get()
+                .load(poster)
+                .placeholder(R.drawable.popcorn)
                 .into(holder.imageViewMovieListItem);
     }
 
@@ -69,6 +73,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
         //We need the object model to be passed to this layer.
         return results.size();
     }
+
+
+    @Override
+    public void onClick(View v) {
+
+
+    }
+
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewOriginalTitle, textViewVoteAverage,textViewPlotSynopsis, textViewReleaseDate;
@@ -85,7 +97,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
             imageViewMoviethumb = viewItem.findViewById(R.id.movie_thumb_iv);
             textViewPlotSynopsis = viewItem.findViewById(R.id.plot_synopsis_tv);
             textViewReleaseDate = viewItem.findViewById(R.id.release_tv);
-            }
+        }
+
     }
 }
 

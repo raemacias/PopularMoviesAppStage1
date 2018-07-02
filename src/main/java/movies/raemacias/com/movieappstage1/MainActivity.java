@@ -14,8 +14,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import movies.raemacias.com.movieappstage1.adapter.MoviesAdapter;
 import movies.raemacias.com.movieappstage1.api.MovieInterface;
 import movies.raemacias.com.movieappstage1.model.MovieModel;
@@ -28,7 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.recyclerview)
     GridLayoutManager layoutManager;
     RecyclerView recyclerView;
     List<Result> results;
@@ -42,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
-        ButterKnife.bind(this);
-
 
     }
     private void initViews(){

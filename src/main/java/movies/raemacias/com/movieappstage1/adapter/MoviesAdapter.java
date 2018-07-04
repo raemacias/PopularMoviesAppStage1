@@ -1,7 +1,8 @@
 package movies.raemacias.com.movieappstage1.adapter;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -9,31 +10,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.squareup.picasso.Picasso;
-import java.util.ArrayList;
+
+import java.io.Serializable;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import movies.raemacias.com.movieappstage1.DetailActivity;
 import movies.raemacias.com.movieappstage1.R;
-import movies.raemacias.com.movieappstage1.api.MovieInterface;
-import movies.raemacias.com.movieappstage1.model.MovieModel;
 import movies.raemacias.com.movieappstage1.model.Result;
-import retrofit2.Callback;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListViewHolder> implements View.OnClickListener {
-
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListViewHolder> {
 
     // This code has been adapted from www.learn2crack.com
     // and Simplified Coding
 
-    //    private final Callback<MovieModel> context;
     private Context context;
     private List<Result> results;
 
-    public MoviesAdapter(Context context,List<Result> results) {
+
+    public MoviesAdapter(Context context, List<Result> results) {
         this.context = context;
         this.results = results;
     }
@@ -48,18 +47,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
 
         MovieListViewHolder holder = new MovieListViewHolder(view);
         return holder;
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull MoviesAdapter.MovieListViewHolder holder, int position) {
         holder.textViewOriginalTitle.setText(results.get(position).getOriginalTitle());
-//        String vote = Double.toString(results.get(position).getVoteAverage());
-//        holder.textViewVoteAverage.setText(vote);
-//        holder.textViewPlotSynopsis.setText(results.get(position).getOverview());
-//        holder.textViewReleaseDate.setText(results.get(position).getReleaseDate());
-
-
         String poster = "https://image.tmdb.org/t/p/w500" + results.get(position).getPosterPath();
 
         Picasso.get()
@@ -74,19 +66,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
         return results.size();
     }
 
-
-    @Override
-    public void onClick(View v) {
-
-
-    }
-
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewOriginalTitle, textViewVoteAverage,textViewPlotSynopsis, textViewReleaseDate;
+        TextView textViewOriginalTitle, textViewVoteAverage, textViewPlotSynopsis, textViewReleaseDate;
         ImageView imageViewMovieListItem, imageViewMoviethumb;
         CardView cardViewMovieList;
-
+        LinearLayout linearLayout;
 
         public MovieListViewHolder(View viewItem) {
             super(viewItem);
@@ -97,25 +82,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
             imageViewMoviethumb = viewItem.findViewById(R.id.movie_thumb_iv);
             textViewPlotSynopsis = viewItem.findViewById(R.id.plot_synopsis_tv);
             textViewReleaseDate = viewItem.findViewById(R.id.release_tv);
-        }
+            linearLayout = viewItem.findViewById(R.id.linear_layout);
 
+            viewItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    context.startActivity(intent);
+
+                }
+            });
+        }
     }
 }
-
-//        }
-//
-//
-////        @Override
-////        public void onClick(View v) {
-////            mRViewClickListener.onClick(v, getAdapterPosition());
-////        }
-//    }
-////        RvClickListener listener = new RvClickListener() {
-////            @Override
-////            public void onClick(View view, int i) {
-////                Intent intent = new Intent(parent.getContext(), DetailActivity.class);
-////                intent.putExtra(MOVIE_MODEL, (Serializable) movieList.get(i));
-////                mContext.startActivity(intent);
-////            }
-////        };
-//}

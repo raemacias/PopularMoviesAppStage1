@@ -14,6 +14,10 @@ import android.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
+import movies.raemacias.com.movieappstage1.model.Result;
+
 public class DetailActivity extends AppCompatActivity {
 
     TextView nameOfMovie, plotSynopsis, userRating, releaseDate;
@@ -32,13 +36,19 @@ public class DetailActivity extends AppCompatActivity {
         releaseDate = findViewById(R.id.release_tv);
 
         //have to test if it has data
-        Intent intentThatStartedThisActivity = getIntent();
-        if (intentThatStartedThisActivity.hasExtra("original_title")) {
-            String thumbnail = getIntent().getExtras().getString("poster_path");
+        Intent intent = getIntent();
+
+        if (intent.hasExtra("movies")) {
+
+//            String thumbnail = getIntent().getExtras().getString("poster_path");
             String movieName = getIntent().getExtras().getString("original_title");
             String synopsis = getIntent().getExtras().getString("overview");
             String rating = getIntent().getExtras().getString("vote_average");
             String dateOfRelease = getIntent().getExtras().getString("release_date");
+
+            //Not sure what to do here
+            String thumbnail = "https://image.tmdb.org/t/p/w150";
+
 
             Picasso.get()
                     .load(thumbnail)

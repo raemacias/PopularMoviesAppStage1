@@ -1,69 +1,102 @@
 package movies.raemacias.com.movieappstage1;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
 
-import movies.raemacias.com.movieappstage1.model.Result;
 
 public class DetailActivity extends AppCompatActivity {
 
-    TextView nameOfMovie, plotSynopsis, userRating, releaseDate;
-    ImageView imageView;
+    TextView textViewOriginalTitle, textViewVoteAverage, textViewPlotSynopsis, textViewReleaseDate ;
+    ImageView imageViewMovieListItem, imageViewMovieThumb;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
+    Movie movie;
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        imageView = findViewById(R.id.movie_thumb_iv);
-        nameOfMovie = findViewById(R.id.title_tv);
-        plotSynopsis = findViewById(R.id.plot_synopsis_tv);
-        userRating = findViewById(R.id.vote_average_tv);
-        releaseDate = findViewById(R.id.release_tv);
+        //add Toolbar
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+//        initCollapsingToolbar();
+
+        textViewOriginalTitle = findViewById(R.id.original_title_tv);
+        imageViewMovieListItem = findViewById(R.id.movie_poster_iv);
+        imageViewMovieThumb = findViewById(R.id.movie_thumb_iv);
+        textViewVoteAverage = findViewById(R.id.vote_average_tv);
+        textViewPlotSynopsis = findViewById(R.id.plot_synopsis_tv);
+        textViewReleaseDate = findViewById(R.id.release_tv);
+
 
         //have to test if it has data
-        Intent intent = getIntent();
+        Intent intentThatStartedThisActivity = getIntent();
 
-        if (intent.hasExtra("movies")) {
+        if (intentThatStartedThisActivity.hasExtra("movies")) {
 
-//            String thumbnail = getIntent().getExtras().getString("poster_path");
-            String movieName = getIntent().getExtras().getString("original_title");
-            String synopsis = getIntent().getExtras().getString("overview");
-            String rating = getIntent().getExtras().getString("vote_average");
-            String dateOfRelease = getIntent().getExtras().getString("release_date");
+            movie = getIntent().getParcelableExtra("movies");
 
-            //Not sure what to do here
-            String thumbnail = "https://image.tmdb.org/t/p/w150";
+//            thumbnail = movie.getPosterPath();
+//            movieName = movie.getOriginalTitle();
+//            synopsis = movie.getOverview();
+//            rating = Double.toString(movie.getVoteAverage());
+//            dateOfRelease = movie.getReleaseDate();
+//            movie_id = movie.getId();
+
+            String poster = "https://image.tmdb.org/t/p/w500";
+//                    + thumbnail;
 
 
             Picasso.get()
-                    .load(thumbnail)
+                    .load(poster)
                     .placeholder(R.drawable.popcorn)
-                    .into(imageView);
+                    .into(imageViewMovieThumb);
 
-
-            nameOfMovie.setText(movieName);
-            plotSynopsis.setText(synopsis);
-            userRating.setText(rating);
-            releaseDate.setText(dateOfRelease);
+//            textViewOriginalTitle.setText(movieName);
+//            textViewVoteAverage.setText(rating);
+//            textViewPlotSynopsis.setText(synopsis);
+//            textViewReleaseDate.setText(dateOfRelease);
 
         } else {
             Toast.makeText(this, "Information not available.", Toast.LENGTH_SHORT).show();
         }
     }
+
+//    private void initCollapsingToolbar() {
+//    final CollapsingToolbarLayout collapsingToolbarLayout =
+//    (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+//    collapsingToolbarLayout.setTitle(" ");
+//    AppBarlayout appBarLayout = (AppBarLayout)findViewById(R.id.appbar);
+//    appBarLayout.setExpanded(true);
+//
+//    appBarLayout.addOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//        boolean isShow = false;
+//        int scrollRange = -1;
+//    @Override
+//    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//        if (scrollRange == -1) {
+//            scrollRange = appBarLayout.getTotalScrollRange();
+//        }
+//        if (scrollRange + verticalOffset == 0) {
+//            collapsingToolbarLayout.setTitle(getString(R.string.movie_details));
+//            isShow = true;
+//        } else if (isShow) {
+//            collapsingToolbarLayout.setTitle(" ");
+//            isShow = false;
+//        }
+//     }
+//    })
+
 }
 

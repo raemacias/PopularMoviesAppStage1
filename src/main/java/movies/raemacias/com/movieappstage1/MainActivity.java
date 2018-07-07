@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -38,8 +41,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         initViews();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
     private void initViews(){
         recyclerView = findViewById(R.id.recyclerview);
@@ -95,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         movieNames[i] = results.get(i).getOriginalTitle();
                     }
 
-                    //we can display all the heroes in the log
+                    //we can display all the movie info in the log
                     for (Result h : results) {
 //
                         Log.d("poster_path", h.getPosterPath());

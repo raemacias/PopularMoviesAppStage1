@@ -1,13 +1,19 @@
 package movies.raemacias.com.movieappstage1;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Movie;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 
@@ -18,19 +24,19 @@ public class DetailActivity extends AppCompatActivity {
     TextView textViewOriginalTitle, textViewVoteAverage, textViewPlotSynopsis, textViewReleaseDate ;
     ImageView imageViewMovieListItem, imageViewMovieThumb;
 
-    Movie movie;
+    private final AppCompatActivity activity = DetailActivity.this;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
-        //add Toolbar
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        initCollapsingToolbar();
+        initCollapsingToolbar();
 
         textViewOriginalTitle = findViewById(R.id.original_title_tv);
         imageViewMovieListItem = findViewById(R.id.movie_poster_iv);
@@ -39,64 +45,60 @@ public class DetailActivity extends AppCompatActivity {
         textViewPlotSynopsis = findViewById(R.id.plot_synopsis_tv);
         textViewReleaseDate = findViewById(R.id.release_tv);
 
-
-        //have to test if it has data
+        //have to test the intent to see if it has data
         Intent intentThatStartedThisActivity = getIntent();
 
-        if (intentThatStartedThisActivity.hasExtra("movies")) {
+        if (intentThatStartedThisActivity.hasExtra("results")) {
 
-            movie = getIntent().getParcelableExtra("movies");
+            String movieTitle = getIntent().getExtras().getString("original_title");
+            String synopsis = getIntent().getExtras().getString("overview");
+            String rating = getIntent().getExtras().getString("vote_average");
+            String release = getIntent().getExtras().getString("release_date");
 
-//            thumbnail = movie.getPosterPath();
-//            movieName = movie.getOriginalTitle();
-//            synopsis = movie.getOverview();
-//            rating = Double.toString(movie.getVoteAverage());
-//            dateOfRelease = movie.getReleaseDate();
-//            movie_id = movie.getId();
-
-            String poster = "https://image.tmdb.org/t/p/w500";
-//                    + thumbnail;
-
+            String thumbnail = "https://image.tmdb.org/t/p/w500" + "poster_path";
 
             Picasso.get()
-                    .load(poster)
+                    .load(thumbnail)
                     .placeholder(R.drawable.popcorn)
                     .into(imageViewMovieThumb);
 
-//            textViewOriginalTitle.setText(movieName);
-//            textViewVoteAverage.setText(rating);
-//            textViewPlotSynopsis.setText(synopsis);
-//            textViewReleaseDate.setText(dateOfRelease);
+            textViewOriginalTitle.setText(movieTitle);
+            textViewVoteAverage.setText(rating);
+            textViewPlotSynopsis.setText(synopsis);
+            textViewReleaseDate.setText(release);
 
         } else {
+
             Toast.makeText(this, "Information not available.", Toast.LENGTH_SHORT).show();
         }
     }
 
-//    private void initCollapsingToolbar() {
-//    final CollapsingToolbarLayout collapsingToolbarLayout =
-//    (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-//    collapsingToolbarLayout.setTitle(" ");
-//    AppBarlayout appBarLayout = (AppBarLayout)findViewById(R.id.appbar);
-//    appBarLayout.setExpanded(true);
-//
-//    appBarLayout.addOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//        boolean isShow = false;
-//        int scrollRange = -1;
-//    @Override
-//    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//        if (scrollRange == -1) {
-//            scrollRange = appBarLayout.getTotalScrollRange();
-//        }
-//        if (scrollRange + verticalOffset == 0) {
-//            collapsingToolbarLayout.setTitle(getString(R.string.movie_details));
-//            isShow = true;
-//        } else if (isShow) {
-//            collapsingToolbarLayout.setTitle(" ");
-//            isShow = false;
-//        }
-//     }
-//    })
+    private void initCollapsingToolbar() {
+        final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(" ");
+        AppBarLayout appBarLayout = findViewById(R.id.appbar);
+        appBarLayout.setExpanded(true);
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle(getString(R.string.details));
+                    isShow = true;
+                } else if (isShow) {
+                    collapsingToolbarLayout.setTitle(" ");
+                    isShow = false;
+
+                }
+            }
+        });
+    }
 
 }
 

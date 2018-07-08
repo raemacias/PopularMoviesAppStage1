@@ -21,6 +21,8 @@ public interface MovieInterface {
     String API_KEY = BuildConfig.API_KEY;
     String POPULAR = "popular";
     String TOP_RATED = "top_rated";
+    String POSTER_WIDTH = "w185/";
+
 
     //http request - adds to end of base url
     //add a method - call <type> e.g. array would be list,
@@ -28,7 +30,7 @@ public interface MovieInterface {
     //can name get anything I want
 
     @GET("popular")
-    Call<MovieModel> getMovies(
+    Call<MovieModel> getPopularMovies(
                     @Query("api_key") String api_key);
 
     @GET("top_rated")

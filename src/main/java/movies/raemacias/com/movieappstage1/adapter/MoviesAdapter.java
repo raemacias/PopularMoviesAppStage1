@@ -2,34 +2,32 @@ package movies.raemacias.com.movieappstage1.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.List;
 
 import movies.raemacias.com.movieappstage1.DetailActivity;
 import movies.raemacias.com.movieappstage1.R;
+import movies.raemacias.com.movieappstage1.api.MovieInterface;
 import movies.raemacias.com.movieappstage1.model.Result;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListViewHolder> {
 
     // This code has been adapted from www.learn2crack.com
     // and Simplified Coding
+
+    private String RESULTS = "results";
 
     private Context context;
     private List<Result> results;
@@ -75,7 +73,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
         CardView cardViewMovieList;
         LinearLayout linearLayout;
 
-        public MovieListViewHolder(View viewItem) {
+        public MovieListViewHolder(final View viewItem) {
             super(viewItem);
             textViewOriginalTitle = viewItem.findViewById(R.id.original_title_tv);
             cardViewMovieList = viewItem.findViewById(R.id.card_view);
@@ -87,23 +85,28 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
             linearLayout = viewItem.findViewById(R.id.linear_layout);
 
             viewItem.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
+
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         Result clickedDataItem = results.get(pos);
                         Intent intent = new Intent(context, DetailActivity.class);
-                        //I don't think String.valueOf is correct
-//                        intent.putExtra("movies", clickedDataItem);
+                        intent.putExtra("posters_base_url", MovieInterface.BASE_URL);
+                        intent.putExtra("poster_width", MovieInterface.POSTER_WIDTH);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getOriginalTitle(), Toast.LENGTH_SHORT).show();
                     }
 
                 }
+
+                ;
+
             });
         }
     }
+}
 
-    }
 

@@ -4,7 +4,10 @@ package movies.raemacias.com.movieappstage1;
 //from Delaroy Studios on YouTube. Also input from Android Basics
 //Networking course and other student advice and input
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,7 +31,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     GridLayoutManager layoutManager;
     RecyclerView recyclerView;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     MoviesAdapter adapter;
 
     private static final String TAG = "MainActivity";
+    private String LOG_TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,25 +63,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.sort_popular) {
-            Call<MovieModel> call;
-            Toast.makeText(MainActivity.this, "You clicked on popular sort", Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                Intent popularIntent = new Intent(this, SettingsActivity.class);
+                startActivity(popularIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        if (item.getItemId() == R.id.sort_top_rated) {
-            Call<MovieModel> getTopRatedMovies;
-            Toast.makeText(MainActivity.this, "You clicked on top rated sort", Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
-    private void initViews(){
+    private void initViews() {
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(MainActivity.this, 2);
         recyclerView.setLayoutManager(layoutManager);
-        loadJSON();
+        checkSortOrder();
     }
-    private void loadJSON(){
+
+    private void loadJSON() {
         results = new ArrayList<>();
         adapter = new MoviesAdapter(getApplicationContext(), results);
 
@@ -100,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         MovieInterface movieInterface = retrofit.create(MovieInterface.class);
 
         //call the getMovies object from the api
-        Call<MovieModel> call = movieInterface.getMovies(MovieInterface.API_KEY);
+        Call<MovieModel> call = movieInterface.getPopularMovies(MovieInterface.API_KEY);
 
         //calling the api, takes a callback interface
         //type in new then hit control + space and it will do everything for me
@@ -145,6 +150,89 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+            //for 2nd API call
+            private void loadJSON1() {
+                results = new ArrayList<>();
+                adapter = new MoviesAdapter(getApplicationContext(), results);
+
+                recyclerView = findViewById(R.id.recyclerview);
+                recyclerView.setAdapter(adapter);
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(MovieInterface.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                MovieInterface movieInterface = retrofit.create(MovieInterface.class);
+
+                Call<MovieModel> call = movieInterface.getTopRatedMovies(MovieInterface.API_KEY);
+
+                call.enqueue(new Callback<MovieModel>() {
+                    @Override
+                    public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
+                        //inside the response we want to get List type
+                        if (response.body() != null) {
+
+                            List<Result> results = Arrays.asList(response.body().getResults());
+                            layoutManager = new GridLayoutManager(MainActivity.this, 2);
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setHasFixedSize(true);
+                            recyclerView.setAdapter(new MoviesAdapter(getApplicationContext(), results));
+
+                            String[] movieNames = new String[results.size()];
+
+                            //then run loop
+                            for (int i = 0; i < results.size(); i++) {
+                                movieNames[i] = results.get(i).getOriginalTitle();
+                            }
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MovieModel> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+                    }
+                });
+            }
+
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.d(LOG_TAG, "Preferences updated.");
+        checkSortOrder();
+
+    }
+    private void checkSortOrder() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String sortOrder = preferences.getString(
+                this.getString(R.string.pref_sort_key),
+                this.getString(R.string.pref_sort_popular)
+        );
+        if (sortOrder.equals(this.getString(R.string.pref_sort_popular))) {
+            Log.d(LOG_TAG, "Sort by most popular.");
+            loadJSON();
+        } else {
+            loadJSON1();
+        }
+
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (results.isEmpty()){
+            checkSortOrder();
+        } else {
+
+            checkSortOrder();
+        }
+
     }
 }
 

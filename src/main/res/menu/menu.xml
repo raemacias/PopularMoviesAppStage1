@@ -3,15 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/sort_popular"
-        android:title="@string/sort_popular"
+        android:id="@+id/menu_settings"
+        android:title="@string/menu_settings"
         android:orderInCategory="100"
-        app:showAsAction="collapseActionView" />
-
-    <item
-        android:id="@+id/sort_top_rated"
-        android:title="@string/sort_rating"
-        android:orderInCategory="200"
-        app:showAsAction="collapseActionView"/>
-
+        app:showAsAction="never" />
 </menu>

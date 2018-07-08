@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -54,6 +56,18 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.sort_popular) {
+            Toast.makeText(MainActivity.this, "You clicked on popular sort", Toast.LENGTH_SHORT).show();
+        }
+        if (item.getItemId() == R.id.sort_top_rated) {
+            Toast.makeText(MainActivity.this, "You clicked on top rated sort", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initViews(){
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);

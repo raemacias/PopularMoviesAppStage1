@@ -29,7 +29,12 @@ public interface MovieInterface {
 
     @GET("popular")
     Call<MovieModel> getMovies(
+                    @Query("api_key") String api_key);
+
+    @GET("top_rated")
+    Call<MovieModel> getTopRatedMovies(
             @Query("api_key") String api_key);
+
 
     }
 

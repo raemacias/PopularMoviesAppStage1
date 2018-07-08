@@ -60,9 +60,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.sort_popular) {
+            Call<MovieModel> call;
             Toast.makeText(MainActivity.this, "You clicked on popular sort", Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.sort_top_rated) {
+            Call<MovieModel> getTopRatedMovies;
             Toast.makeText(MainActivity.this, "You clicked on top rated sort", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);

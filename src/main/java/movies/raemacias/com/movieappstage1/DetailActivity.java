@@ -2,7 +2,6 @@ package movies.raemacias.com.movieappstage1;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Movie;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,8 +15,6 @@ import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
-
-
 
 public class DetailActivity extends AppCompatActivity {
 

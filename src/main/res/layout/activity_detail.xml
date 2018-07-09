@@ -48,18 +48,18 @@
                 android:padding="8dp" />
 
             <TextView
-                android:id="@+id/title_tv"
+                android:id="@+id/original_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/movie_thumb_iv"
-                android:text="@string/detail_title"
+                android:text="@string/original_title"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
             <TextView
                 android:id="@+id/release_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/title_tv"
+                android:layout_below="@+id/original_title_tv"
                 android:text="@string/detail_release_date"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 

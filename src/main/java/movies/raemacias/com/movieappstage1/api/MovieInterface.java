@@ -22,6 +22,10 @@ public interface MovieInterface {
     String POPULAR = "popular";
     String TOP_RATED = "top_rated";
     String POSTER_WIDTH = "w185/";
+    String TITLE = "original_title";
+    String PLOT = "overview";
+    String RELEASE_DATE = "release_date";
+
 
 
     //http request - adds to end of base url
@@ -29,14 +33,29 @@ public interface MovieInterface {
     // type of list, list of type movie
     //can name get anything I want
 
+    @GET("original_title")
+    Call<MovieModel> getOriginalTitle(
+            @Query("api_key") String api_key);
+
     @GET("popular")
     Call<MovieModel> getPopularMovies(
                     @Query("api_key") String api_key);
 
-    @GET("top_rated")
-    Call<MovieModel> getTopRatedMovies(
+    @GET("vote_average")
+    Call<MovieModel> getVoteAverage(
             @Query("api_key") String api_key);
 
+    @GET("overview")
+    Call<MovieModel> getOverview(
+            @Query("api_key") String api_key);
+
+    @GET("release_date")
+    Call<MovieModel> getReleaseDate(
+            @Query("api_key") String api_key);
+
+    @GET("poster_path")
+    Call<MovieModel> getPosterPath(
+            @Query("api_key") String api_key);
 
     }
 

@@ -21,6 +21,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView textViewOriginalTitle, textViewVoteAverage, textViewPlotSynopsis, textViewReleaseDate ;
     ImageView imageViewMovieListItem, imageViewMovieThumb;
 
+
     private final AppCompatActivity activity = DetailActivity.this;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -42,17 +43,16 @@ public class DetailActivity extends AppCompatActivity {
         textViewPlotSynopsis = findViewById(R.id.plot_synopsis_tv);
         textViewReleaseDate = findViewById(R.id.release_tv);
 
-        //have to test the intent to see if it has data
-        Intent intentThatStartedThisActivity = getIntent();
+        Intent intent = getIntent();
+        if (intent.hasExtra("original_title")) {
 
-        if (intentThatStartedThisActivity.hasExtra("results")) {
-
+            String thumbnail = getIntent().getExtras().getString("poster_path");
             String movieTitle = getIntent().getExtras().getString("original_title");
             String synopsis = getIntent().getExtras().getString("overview");
             String rating = getIntent().getExtras().getString("vote_average");
             String release = getIntent().getExtras().getString("release_date");
 
-            String thumbnail = "https://image.tmdb.org/t/p/w500" + "poster_path";
+//            String thumbnail = "https://image.tmdb.org/t/p/w500";
 
             Picasso.get()
                     .load(thumbnail)
@@ -64,13 +64,11 @@ public class DetailActivity extends AppCompatActivity {
             textViewPlotSynopsis.setText(synopsis);
             textViewReleaseDate.setText(release);
 
-        } else {
-
             Toast.makeText(this, "Information not available.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void initCollapsingToolbar() {
+        private void initCollapsingToolbar() {
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(" ");
         AppBarLayout appBarLayout = findViewById(R.id.appbar);
@@ -98,4 +96,5 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 }
+
 

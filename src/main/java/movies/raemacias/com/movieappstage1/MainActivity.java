@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
                 MovieInterface movieInterface = retrofit.create(MovieInterface.class);
 
-                Call<MovieModel> call = movieInterface.getTopRatedMovies(MovieInterface.API_KEY);
+                Call<MovieModel> call = movieInterface.getVoteAverage(MovieInterface.API_KEY);
 
                 call.enqueue(new Callback<MovieModel>() {
                     @Override

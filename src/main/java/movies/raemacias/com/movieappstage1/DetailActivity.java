@@ -16,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 
+import movies.raemacias.com.movieappstage1.api.MovieInterface;
+
 public class DetailActivity extends AppCompatActivity {
 
     TextView textViewOriginalTitle, textViewVoteAverage, textViewPlotSynopsis, textViewReleaseDate ;
@@ -34,7 +36,7 @@ public class DetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        initCollapsingToolbar();
+//        initCollapsingToolbar();
 
         textViewOriginalTitle = findViewById(R.id.original_title_tv);
         imageViewMovieListItem = findViewById(R.id.movie_poster_iv);
@@ -46,13 +48,13 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("original_title")) {
 
-            String thumbnail = getIntent().getExtras().getString("poster_path");
+//            String thumbnail = getIntent().getExtras().getString("poster_path");
             String movieTitle = getIntent().getExtras().getString("original_title");
             String synopsis = getIntent().getExtras().getString("overview");
             String rating = getIntent().getExtras().getString("vote_average");
             String release = getIntent().getExtras().getString("release_date");
 
-//            String thumbnail = "https://image.tmdb.org/t/p/w500";
+            String thumbnail = "https://image.tmdb.org/t/p/w500";
 
             Picasso.get()
                     .load(thumbnail)
@@ -68,32 +70,32 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-        private void initCollapsingToolbar() {
-        final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle(" ");
-        AppBarLayout appBarLayout = findViewById(R.id.appbar);
-        appBarLayout.setExpanded(true);
-
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbarLayout.setTitle(getString(R.string.details));
-                    isShow = true;
-                } else if (isShow) {
-                    collapsingToolbarLayout.setTitle(" ");
-                    isShow = false;
-
-                }
-            }
-        });
-    }
+//        private void initCollapsingToolbar() {
+//        final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+//        collapsingToolbarLayout.setTitle(" ");
+//        AppBarLayout appBarLayout = findViewById(R.id.appbar);
+//        appBarLayout.setExpanded(true);
+//
+//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            boolean isShow = false;
+//            int scrollRange = -1;
+//
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                if (scrollRange == -1) {
+//                    scrollRange = appBarLayout.getTotalScrollRange();
+//                }
+//                if (scrollRange + verticalOffset == 0) {
+//                    collapsingToolbarLayout.setTitle(getString(R.string.details));
+//                    isShow = true;
+//                } else if (isShow) {
+//                    collapsingToolbarLayout.setTitle(" ");
+//                    isShow = false;
+//
+//                }
+//            }
+//        });
+//    }
 
 }
 

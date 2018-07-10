@@ -6,23 +6,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
-
 import com.squareup.picasso.Picasso;
-
-import movies.raemacias.com.movieappstage1.api.MovieInterface;
+import java.util.List;
+import movies.raemacias.com.movieappstage1.model.Result;
 
 public class DetailActivity extends AppCompatActivity {
 
+    private List<Result> results;
+
     TextView textViewOriginalTitle, textViewVoteAverage, textViewPlotSynopsis, textViewReleaseDate ;
     ImageView imageViewMovieListItem, imageViewMovieThumb;
-
 
     private final AppCompatActivity activity = DetailActivity.this;
 
@@ -48,16 +46,14 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("original_title")) {
 
-//            String thumbnail = getIntent().getExtras().getString("poster_path");
+            String poster = getIntent().getExtras().getString("poster_path");
             String movieTitle = getIntent().getExtras().getString("original_title");
             String synopsis = getIntent().getExtras().getString("overview");
             String rating = getIntent().getExtras().getString("vote_average");
             String release = getIntent().getExtras().getString("release_date");
 
-            String thumbnail = "https://image.tmdb.org/t/p/w500";
-
             Picasso.get()
-                    .load(thumbnail)
+                    .load("http://image.tmdb.org/t/p/w342" + poster)
                     .placeholder(R.drawable.popcorn)
                     .into(imageViewMovieThumb);
 
@@ -65,37 +61,10 @@ public class DetailActivity extends AppCompatActivity {
             textViewVoteAverage.setText(rating);
             textViewPlotSynopsis.setText(synopsis);
             textViewReleaseDate.setText(release);
-
+        } else {
             Toast.makeText(this, "Information not available.", Toast.LENGTH_SHORT).show();
         }
     }
-
-//        private void initCollapsingToolbar() {
-//        final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
-//        collapsingToolbarLayout.setTitle(" ");
-//        AppBarLayout appBarLayout = findViewById(R.id.appbar);
-//        appBarLayout.setExpanded(true);
-//
-//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            boolean isShow = false;
-//            int scrollRange = -1;
-//
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                if (scrollRange == -1) {
-//                    scrollRange = appBarLayout.getTotalScrollRange();
-//                }
-//                if (scrollRange + verticalOffset == 0) {
-//                    collapsingToolbarLayout.setTitle(getString(R.string.details));
-//                    isShow = true;
-//                } else if (isShow) {
-//                    collapsingToolbarLayout.setTitle(" ");
-//                    isShow = false;
-//
-//                }
-//            }
-//        });
-//    }
 
 }
 

@@ -25,6 +25,7 @@ public interface MovieInterface {
     String TITLE = "original_title";
     String PLOT = "overview";
     String RELEASE_DATE = "release_date";
+    String POSTER_PATH = "poster_path";
 
 
 

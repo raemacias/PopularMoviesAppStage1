@@ -43,7 +43,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
         this.results = results;
     }
 
-    //    //This adapter code is based on Simplified Coding tutorials.
+    //This adapter code is based on Simplified Coding tutorials.
     @NonNull
     @Override
     public MoviesAdapter.MovieListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

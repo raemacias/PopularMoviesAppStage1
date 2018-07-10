@@ -64,14 +64,20 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_settings:
+            case R.id.menu_popular:
                 Intent popularIntent = new Intent(this, SettingsActivity.class);
                 startActivity(popularIntent);
-                return true;
+                break;
+
+            case R.id.menu_rating:
+                Intent ratingIntent = new Intent(this, SettingsActivity.class);
+                startActivity(ratingIntent);
+
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+        return true;
     }
 
     private void initViews() {

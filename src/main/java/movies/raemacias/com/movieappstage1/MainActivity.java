@@ -4,7 +4,6 @@ package movies.raemacias.com.movieappstage1;
 //from Delaroy Studios on YouTube. Also input from Android Basics
 //Networking course and other student advice and input
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import movies.raemacias.com.movieappstage1.adapter.MoviesAdapter;
 import movies.raemacias.com.movieappstage1.api.MovieInterface;
 import movies.raemacias.com.movieappstage1.model.MovieModel;
@@ -64,15 +64,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_popular:
-                Intent popularIntent = new Intent(this, SettingsActivity.class);
-                startActivity(popularIntent);
+            case R.id.menu_popular:loadJSON();
                 break;
 
-            case R.id.menu_rating:
-                Intent ratingIntent = new Intent(this, SettingsActivity.class);
-                startActivity(ratingIntent);
-
+            case R.id.menu_rating:loadJSON1();
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -87,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         recyclerView.setLayoutManager(layoutManager);
         checkSortOrder();
     }
+
 
     private void loadJSON() {
         results = new ArrayList<>();
@@ -157,8 +153,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
     }
-
-
             //for 2nd API call
             private void loadJSON1() {
                 results = new ArrayList<>();
@@ -194,7 +188,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                             for (int i = 0; i < results.size(); i++) {
                                 movieNames[i] = results.get(i).getOriginalTitle();
                             }
-
 
                         }
                     }

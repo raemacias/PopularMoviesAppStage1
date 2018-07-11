@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             Toast.makeText(getApplicationContext(), "Webpage is available!", Toast.LENGTH_SHORT).show();
         }
         catch(Exception e) {
-            Toast.makeText(getApplicationContext(), "oops! webpage is not available!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Oops! No internet access available!", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -37,7 +37,7 @@ public interface MovieInterface {
     Call<MovieModel> getPopularMovies(
                     @Query("api_key") String api_key);
 
-    @GET("vote_average")
+    @GET("top_rated")
     Call<MovieModel> getVoteAverage(
             @Query("api_key") String api_key);
 

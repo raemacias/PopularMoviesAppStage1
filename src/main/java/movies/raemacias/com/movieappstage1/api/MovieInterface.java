@@ -1,15 +1,10 @@
 package movies.raemacias.com.movieappstage1.api;
 
-import java.util.List;
-
 import movies.raemacias.com.movieappstage1.BuildConfig;
 import movies.raemacias.com.movieappstage1.model.MovieModel;
 //import movies.raemacias.com.movieappstage1.model.MovieResponse;
-import movies.raemacias.com.movieappstage1.model.Result;
 import retrofit2.Call;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface MovieInterface {

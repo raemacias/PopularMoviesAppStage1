@@ -29,8 +29,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
 
     private String RESULTS = "results";
 
-    private Context context;
-    private List<Result> results;
+    private final Context context;
+    private final List<Result> results;
 
     public MoviesAdapter(Context context, List<Result> results) {
         this.context = context;
@@ -68,12 +68,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
 
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewOriginalTitle, textViewVoteAverage, textViewPlotSynopsis, textViewReleaseDate;
-        ImageView imageViewMovieListItem, imageViewMoviethumb;
-        CardView cardViewMovieList;
-        LinearLayout linearLayout;
+        final TextView textViewOriginalTitle;
+        final TextView textViewVoteAverage;
+        final TextView textViewPlotSynopsis;
+        final TextView textViewReleaseDate;
+        final ImageView imageViewMovieListItem;
+        final ImageView imageViewMoviethumb;
+        final CardView cardViewMovieList;
+        final LinearLayout linearLayout;
 
-        public MovieListViewHolder(final View viewItem) {
+        MovieListViewHolder(final View viewItem) {
             super(viewItem);
             textViewOriginalTitle = viewItem.findViewById(R.id.original_title_tv);
             cardViewMovieList = viewItem.findViewById(R.id.card_view);

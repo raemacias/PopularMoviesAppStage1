@@ -3,9 +3,6 @@ package movies.raemacias.com.movieappstage1.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //@Serializedname is used for the gson to parse the json
 //then create constructors and getter and setter methods
 

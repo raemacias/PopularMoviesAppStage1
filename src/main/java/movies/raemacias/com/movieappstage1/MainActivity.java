@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,9 +41,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     GridLayoutManager layoutManager;
-    RecyclerView recyclerView;
-    List<Result> results;
-    MoviesAdapter adapter;
+    private RecyclerView recyclerView;
+    private List<Result> results;
+    private MoviesAdapter adapter;
 
     private static final String TAG = "MainActivity";
     private String LOG_TAG;
@@ -98,7 +99,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         switch (item.getItemId()) {
             case R.id.menu_popular:
                 loadJSON();
-                return true;
+                break;
+
+//                return true;
             case R.id.menu_rating:
                 loadJSON1();
                 return true;
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             default:
                 return super.onOptionsItemSelected(item);
         }
+        return true;
     }
 
 
@@ -143,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         call.enqueue(new Callback<MovieModel>() {
             @Override
-            public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
+            public void onResponse(@NonNull Call<MovieModel> call, @NonNull Response<MovieModel> response) {
                 //inside the response we want to get List type
                 if (response.body() != null) {
 
@@ -171,17 +175,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                         Log.d("overview", h.getOriginalTitle());
                         Log.d("release_date", h.getReleaseDate());
                         Log.d("original_title", h.getOriginalTitle());
-//                Log.d("vote_average", h.getVoteAverage());
-
+                        Log.d("vote_average", String.valueOf(h.getVoteAverage()));
                     }
-
                 }
             }
 
             @Override
-            public void onFailure(Call<MovieModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<MovieModel> call, @NonNull Throwable t) {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
     }
@@ -207,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
                 call.enqueue(new Callback<MovieModel>() {
                     @Override
-                    public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
+                    public void onResponse(@NonNull Call<MovieModel> call, @NonNull Response<MovieModel> response) {
                         //inside the response we want to get List type
                         if (response.body() != null) {
 
@@ -236,15 +237,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     }
 
                     @Override
-                    public void onFailure(Call<MovieModel> call, Throwable t) {
+                    public void onFailure(@NonNull Call<MovieModel> call, @NonNull Throwable t) {
                         Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
-
                     }
                 });
             }
-
-
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Log.d(LOG_TAG, "Preferences updated.");

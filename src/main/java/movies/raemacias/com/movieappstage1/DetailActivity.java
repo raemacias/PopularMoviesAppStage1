@@ -19,8 +19,12 @@ public class DetailActivity extends AppCompatActivity {
 
     private List<Result> results;
 
-    TextView textViewOriginalTitle, textViewVoteAverage, textViewPlotSynopsis, textViewReleaseDate ;
-    ImageView imageViewMovieListItem, imageViewMovieThumb;
+    private TextView textViewOriginalTitle;
+    private TextView textViewVoteAverage;
+    private TextView textViewPlotSynopsis;
+    private TextView textViewReleaseDate ;
+    private ImageView imageViewMovieListItem;
+    private ImageView imageViewMovieThumb;
 
     private final AppCompatActivity activity = DetailActivity.this;
 

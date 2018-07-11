@@ -5,6 +5,7 @@ package movies.raemacias.com.movieappstage1;
 //Networking course and other student advice and input
 
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,8 +56,35 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         setSupportActionBar(myToolbar);
 
         initViews();
+        initViews1();
 
+        //per suggested in the implementation guide, this
+        //is from https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out
+        try {
+            URL url = new URL("https://www.themoviedb.org/movie" );
+            executeReq(url);
+            Toast.makeText(getApplicationContext(), "Webpage is available!", Toast.LENGTH_SHORT).show();
+        }
+        catch(Exception e) {
+            Toast.makeText(getApplicationContext(), "oops! webpage is not available!", Toast.LENGTH_SHORT).show();
+        }
     }
+
+    private void executeReq(URL urlObject) throws IOException
+    {
+        HttpURLConnection conn = null;
+        conn = (HttpURLConnection) urlObject.openConnection();
+        conn.setReadTimeout(30000);//milliseconds
+        conn.setConnectTimeout(3500);//milliseconds
+        conn.setRequestMethod("GET");
+        conn.setDoInput(true);
+
+        // Start connect
+        conn.connect();
+        InputStream response =conn.getInputStream();
+        Log.d("Response:", response.toString());
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,25 +96,22 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_popular:loadJSON();
-                break;
-
-            case R.id.menu_rating:loadJSON1();
+            case R.id.menu_popular:
+                loadJSON();
+                return true;
+            case R.id.menu_rating:
+                loadJSON1();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
-        return true;
     }
+
 
     private void initViews() {
-        recyclerView = findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(MainActivity.this, 2);
-        recyclerView.setLayoutManager(layoutManager);
         checkSortOrder();
     }
-
 
     private void loadJSON() {
         results = new ArrayList<>();
@@ -119,8 +148,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 if (response.body() != null) {
 
                     List<Result> results = Arrays.asList(response.body().getResults());
-                    layoutManager = new GridLayoutManager(MainActivity.this, 2);
-                    recyclerView.setLayoutManager(layoutManager);
+                    if (getResources().getConfiguration().orientation ==
+                            Configuration.ORIENTATION_PORTRAIT) {
+                        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                    } else {
+                        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+                    }
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setAdapter(new MoviesAdapter(getApplicationContext(), results));
 
@@ -149,9 +182,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             public void onFailure(Call<MovieModel> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
-
             }
         });
+    }
+    private void initViews1() {
+        checkSortOrder();
     }
             //for 2nd API call
             private void loadJSON1() {
@@ -177,8 +212,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                         if (response.body() != null) {
 
                             List<Result> results = Arrays.asList(response.body().getResults());
-                            layoutManager = new GridLayoutManager(MainActivity.this, 2);
-                            recyclerView.setLayoutManager(layoutManager);
+                            if (getResources().getConfiguration().orientation ==
+                                    Configuration.ORIENTATION_PORTRAIT) {
+                                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                            } else {
+                                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+                            }
                             recyclerView.setHasFixedSize(true);
                             recyclerView.setAdapter(new MoviesAdapter(getApplicationContext(), results));
 
@@ -186,7 +225,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
                             //then run loop
                             for (int i = 0; i < results.size(); i++) {
-                                movieNames[i] = results.get(i).getOriginalTitle();
+                                movieNames[i] = String.valueOf(results.get(i).getVoteAverage());
+                            }
+                            for (Result h : results) {
+                                Log.d("vote_average", String.valueOf(h.getVoteAverage()));
+
                             }
 
                         }
@@ -212,12 +255,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String sortOrder = preferences.getString(
                 this.getString(R.string.pref_sort_key),
-                this.getString(R.string.pref_sort_popular)
-        );
+                this.getString(R.string.pref_sort_popular));
+
         if (sortOrder.equals(this.getString(R.string.pref_sort_popular))) {
             Log.d(LOG_TAG, "Sort by most popular.");
             loadJSON();
-        } else {
+        } else if (sortOrder.equals(this.getString(R.string.pref_sort_rating))) {
+            Log.d(LOG_TAG, "Sort by highest rating.");
             loadJSON1();
         }
 

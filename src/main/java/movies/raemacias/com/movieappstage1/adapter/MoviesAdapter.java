@@ -15,18 +15,12 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.List;
 
 import movies.raemacias.com.movieappstage1.DetailActivity;
 import movies.raemacias.com.movieappstage1.R;
-import movies.raemacias.com.movieappstage1.api.MovieInterface;
 import movies.raemacias.com.movieappstage1.model.Result;
 
-import static movies.raemacias.com.movieappstage1.api.MovieInterface.PLOT;
-import static movies.raemacias.com.movieappstage1.api.MovieInterface.RELEASE_DATE;
-import static movies.raemacias.com.movieappstage1.api.MovieInterface.TITLE;
-import static movies.raemacias.com.movieappstage1.api.MovieInterface.TOP_RATED;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListViewHolder> {
 
@@ -43,7 +37,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieListV
         this.results = results;
     }
 
-    //This adapter code is based on Simplified Coding tutorials.
+    //    //This adapter code is based on Simplified Coding tutorials.
     @NonNull
     @Override
     public MoviesAdapter.MovieListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

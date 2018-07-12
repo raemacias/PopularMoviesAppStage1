@@ -37,10 +37,7 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-
-//        initCollapsingToolbar();
+        if(getSupportActionBar() != null){ getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
 
         textViewOriginalTitle = findViewById(R.id.original_title_tv);
         imageViewMovieListItem = findViewById(R.id.movie_poster_iv);

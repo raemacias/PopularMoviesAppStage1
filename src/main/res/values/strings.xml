@@ -13,6 +13,4 @@
     <string name="pref_sort_rating" translatable="false">Highest Rating</string>
     <string name="pref_sort_key" translatable="false">Sort Key</string>
 
-    <string-array name="toolbar_title">Movies</string-array>
-
 </resources>

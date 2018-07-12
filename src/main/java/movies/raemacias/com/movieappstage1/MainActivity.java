@@ -64,10 +64,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         try {
             URL url = new URL("https://www.themoviedb.org/movie" );
             executeReq(url);
-            Toast.makeText(getApplicationContext(), "Webpage is available!", Toast.LENGTH_SHORT).show();
         }
         catch(Exception e) {
-            Toast.makeText(getApplicationContext(), "Oops! No internet access available!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Oops! No internet access available!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -86,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         Log.d("Response:", response.toString());
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -101,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 loadJSON();
                 break;
 
-//                return true;
             case R.id.menu_rating:
                 loadJSON1();
                 return true;
@@ -111,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         return true;
     }
-
 
     private void initViews() {
         checkSortOrder();
@@ -124,9 +120,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         //Set layout manager for recyclerview
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setAdapter(adapter);
+        recyclerView.setNestedScrollingEnabled(false);
 
         //from whatever layout i have in xml - then create string array in onResponse
-//        final TextView textView = findViewById(R.id.recyclerview);
+        //final TextView textView = findViewById(R.id.recyclerview);
 
         //call the methods
         Retrofit retrofit = new Retrofit.Builder()
@@ -170,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
                     //we can display all the movie info in the log
                     for (Result h : results) {
-//
+
                         Log.d("poster_path", h.getPosterPath());
                         Log.d("overview", h.getOriginalTitle());
                         Log.d("release_date", h.getReleaseDate());
@@ -196,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
                 recyclerView = findViewById(R.id.recyclerview);
                 recyclerView.setAdapter(adapter);
+                recyclerView.setNestedScrollingEnabled(false);
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(MovieInterface.BASE_URL)
@@ -230,9 +228,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                             }
                             for (Result h : results) {
                                 Log.d("vote_average", String.valueOf(h.getVoteAverage()));
-
                             }
-
                         }
                     }
 
@@ -261,7 +257,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             Log.d(LOG_TAG, "Sort by highest rating.");
             loadJSON1();
         }
-
     }
     @Override
     public void onResume(){
